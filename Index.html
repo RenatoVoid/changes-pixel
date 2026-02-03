@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Changes</title>
+    <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #a18cd1 100%);
+            background-size: 200% 200%;
+            animation: gradientMove 10s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- TELA DE INTRODUÇÃO (Vidro) --- */
+        #intro-screen {
+            position: fixed; /* Mudei para fixed para garantir que cubra tudo */
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            z-index: 9999; /* Z-index altíssimo pra nada ficar na frente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease;
+        }
+
+        .btn-start {
+            padding: 25px 60px; /* Botão maior */
+            font-size: 1.4rem;
+            color: #fff;
+            background: #ff758c;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 117, 140, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            -webkit-tap-highlight-color: transparent; /* Tira o azul padrão do android */
+            transition: transform 0.1s;
+        }
+
+        .btn-start:active {
+            transform: scale(0.95); /* Efeito de clique */
+            background: #ff5c77;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+            pointer-events: none; /* Bloqueia cliques enquanto invisível */
+        }
+
+        /* TULIPA SVG */
+        .tulip-svg {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+        p {
+            color: #fff;
+            opacity: 0.9;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .player-container {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        .runner-track {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            pointer-events: none;
+        }
+        .runner {
+            font-size: 30px;
+            position: absolute;
+            bottom: 15px;
+            left: -50px;
+            animation: run 10s linear infinite;
+        }
+        @keyframes run {
+            from { left: -50px; }
+            to { left: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <button class="btn-start" id="botaozao">ABRIR 🌷 :)</button>
+    </div>
+
+    <div class="main-content" id="main">
+        
+        <svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="petalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff6a88;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path d="M100,300 Q100,200 100,180" stroke="#88d8b0" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M100,280 Q60,220 70,150 Q90,200 100,240" fill="#a8e6cf"/>
+            <path d="M100,290 Q140,230 130,160 Q110,210 100,250" fill="#88d8b0"/>
+            <path d="M70,100 Q100,20 130,100 Q100,190 70,100" fill="url(#petalGradient)"/>
+            <path d="M85,100 Q100,10 115,100" fill="rgba(255,255,255,0.3)"/> 
+            <path d="M70,100 Q50,60 100,50 Q150,60 130,100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        </svg>
+
+        <h1>O correr que faz você brilhar</h1>
+        <p>Changes</p>
+
+        <div class="player-container">
+            <iframe width="280" height="80" 
+                src="https://www.youtube.com/embed/b88Y-s6WlQ0?controls=1&modestbranding=1&rel=0" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <div class="runner-track">
+        <div class="runner">🏃‍♀️💨</div>
+    </div>
+
+    <script>
+        // Script blindado para celular
+        document.addEventListener("DOMContentLoaded", function() {
+            var btn = document.getElementById('botaozao');
+            var intro = document.getElementById('intro-screen');
+            var main = document.getElementById('main');
+            
+            function ativarSite(e) {
+                if (e) e.preventDefault(); // Evita clique duplo fantasma
+                
+                // Feedback visual imediato
+                intro.style.opacity = '0';
+                intro.style.pointerEvents = 'none';
+                
+                // Libera o conteúdo
+                main.style.opacity = '1';
+                main.style.transform = 'translateY(0)';
+                main.style.pointerEvents = 'all';
+
+                setTimeout(function() {
+                    intro.style.display = 'none';
+                }, 800);
+            }
+
+            // Ouve tanto o toque quanto o clique
+            btn.addEventListener('touchstart', ativarSite, {passive: false});
+            btn.addEventListener('click', ativarSite);
+        });
+    </script>
+</body>
+</html>
+            align-items: center;
+            transition: all 0.8s ease-in-out;
+        }
+
+        .btn-start {
+            padding: 20px 50px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #ff758c;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 117, 140, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 117, 140, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 117, 140, 0); }
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        .main-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            opacity: 0; /* Começa invisível */
+            transform: translateY(20px);
+            transition: all 1s ease-out;
+        }
+
+        /* TULIPA SVG PROFISSIONAL */
+        .tulip-svg {
+            width: 180px;
+            height: auto;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        h1 {
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 1.8rem;
+            margin: 20px 0 10px 0;
+            font-weight: 600;
+        }
+        p {
+            color: #fff;
+            opacity: 0.9;
+            font-size: 1rem;
+            margin-bottom: 40px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Player Estilizado */
+        .player-container {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+
+        /* Corredora */
+        .runner-track {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            pointer-events: none;
+        }
+        .runner {
+            font-size: 30px;
+            position: absolute;
+            bottom: 15px;
+            left: -50px;
+            animation: run 10s linear infinite;
+        }
+        @keyframes run {
+            from { left: -50px; }
+            to { left: 100%; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <button class="btn-start" onclick="abrirPresente()">Abrir 🌷</button>
+    </div>
+
+    <div class="main-content" id="main">
+        
+        <svg class="tulip-svg" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="petalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#ff6a88;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+            <path d="M100,300 Q100,200 100,180" stroke="#88d8b0" stroke-width="8" fill="none" stroke-linecap="round"/>
+            <path d="M100,280 Q60,220 70,150 Q90,200 100,240" fill="#a8e6cf"/>
+            <path d="M100,290 Q140,230 130,160 Q110,210 100,250" fill="#88d8b0"/>
+            <path d="M70,100 Q100,20 130,100 Q100,190 70,100" fill="url(#petalGradient)"/>
+            <path d="M85,100 Q100,10 115,100" fill="rgba(255,255,255,0.3)"/> 
+            <path d="M70,100 Q50,60 100,50 Q150,60 130,100" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+        </svg>
+
+        <h1>O corre que faz brilhar</h1>
+        <p>Changes</p>
+
+        <div class="player-container">
+            <iframe width="280" height="80" 
+                src="https://www.youtube.com/embed/b88Y-s6WlQ0?controls=1&modestbranding=1&rel=0" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+
+    <div class="runner-track">
+        <div class="runner">🏃‍♀️💨</div>
+    </div>
+
+    <script>
+        function abrirPresente() {
+            var intro = document.getElementById('intro-screen');
+            var main = document.getElementById('main');
+            
+            // Some com a intro
+            intro.style.opacity = '0';
+            intro.style.pointerEvents = 'none'; // Garante que não bloqueie cliques
+            
+            // Mostra o conteúdo
+            setTimeout(function() {
+                intro.style.display = 'none'; // Remove de vez
+                main.style.opacity = '1';
+                main.style.transform = 'translateY(0)';
+            }, 800); // Tempo sincronizado com a transição
+        }
+    </script>
+</body>
+</html>
+    padding: 0 10px;
+        }
+        p {
+            color: #ffcad4;
+            font-size: 1rem;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Player de Vidro */
+        .glass-player {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 10px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        /* Corredora */
+        .runner-container {
+            position: fixed;
+            bottom: 15px;
+            width: 100%;
+            pointer-events: none;
+        }
+        .runner {
+            font-size: 35px;
+            position: absolute;
+            left: -60px;
+            animation: runRight 7s linear infinite;
+        }
+        @keyframes runRight {
+            0% { left: -60px; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-gradient"></div>
+    <div class="petals">
+        <div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+    </div>
+    <div id="intro-screen">
+        <button class="btn-start" onclick="iniciarExperiencia()">ABRIR PRESENTE 🎁</button>
+    </div>
+    <div class="main-content" id="main">
+        <div class="pixel-tulip"></div>
+        <h1>O correr que te faz brilhar.</h1>
+        <p>Changes</p>
+        <div class="glass-player">
+            <iframe width="300" height="80" 
+                src="https://www.youtube.com/embed/8E5k3yB9dM8?controls=1&modestbranding=1&rel=0" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+    <div class="runner-container">
+        <div class="runner">🏃‍♀️💨</div>
+    </div>
+    <script>
+        function iniciarExperiencia() {
+            var intro = document.getElementById('intro-screen');
+            var main = document.getElementById('main');
+            intro.style.opacity = '0';
+            setTimeout(function(){ 
+                intro.style.display = 'none'; 
+                main.style.opacity = '1';
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
