@@ -61,18 +61,19 @@ body, html {
 h1 { font-size: 1.4rem; margin: 0; font-weight: 600; letter-spacing: -0.5px; }
 p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; opacity: 0.8; }
 
-/* --- O Botão Player (Ajuste Final de Alinhamento) --- */
+/* --- O Botão Player (CORRIGIDO) --- */
 .custom-player {
     position: relative; background: var(--glass);
-    width: 260px; 
     
-    /* Padding igual em cima e embaixo */
-    padding: 18px 0;
+    width: 260px; 
+    height: 56px; /* Altura fixa para garantir centro vertical */
+    padding: 0;   /* Padding zerado em favor de Flexbox centralizado */
     
     border-radius: 50px;
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     
+    /* Centralização Absoluta Flexbox */
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -85,28 +86,25 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .custom-player:hover { background: var(--glass-hover); transform: scale(1.02); border-color: rgba(255,255,255,0.4); }
 .custom-player:active { transform: scale(0.98); }
 
-/* --- AQUI ESTÁ A CORREÇÃO --- */
-
-/* Ícone: Desce 1 pixel */
+/* Ícone */
 #play-icon { 
     font-size: 1rem; 
     z-index: 2;
-    display: flex; /* Garante que o ícone se comporte bem */
-    transform: translateY(1px); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: none; /* Removemos o deslocamento que causava o erro */
 }
 
-/* Texto: Sobe 3 pixels (Isso vai resolver o "caído") */
+/* Texto do Botão */
 .player-text { 
     font-size: 0.85rem; 
     letter-spacing: 1.5px; 
     font-weight: 600; 
     z-index: 2; 
     margin: 0;
-    line-height: 1; /* Remove espaço extra da fonte */
-    
-    /* PULO DO GATO: Puxa o texto para cima */
-    position: relative;
-    top: -3px; 
+    line-height: 1;
+    padding-top: 2px; /* Ajuste ótico fino para a fonte Inter */
 }
 
 /* Barra de Progresso */
