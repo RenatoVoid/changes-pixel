@@ -2,6 +2,7 @@
     --primary-pink: #ffc4d0;
     --glass: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
+    --glass-hover: rgba(255, 255, 255, 0.25);
 }
 
 body, html {
@@ -10,6 +11,7 @@ body, html {
     background: #111; color: white;
 }
 
+/* --- Fundo --- */
 .bg-image {
     position: fixed; inset: -5%; width: 110%; height: 110%;
     background: url('https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg') no-repeat center center/cover;
@@ -17,6 +19,7 @@ body, html {
     z-index: 0;
 }
 
+/* --- Tela de Intro --- */
 #intro-screen {
     position: fixed; inset: 0; background: rgba(0,0,0,0.85);
     backdrop-filter: blur(15px);
@@ -31,6 +34,7 @@ body, html {
 }
 .btn-start:hover { background: white; color: black; transform: scale(1.05); }
 
+/* --- Conteúdo Principal --- */
 .main-content {
     position: relative; z-index: 10; height: 100dvh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -38,34 +42,53 @@ body, html {
 }
 .main-content.active { opacity: 1; pointer-events: all; }
 
+/* --- Imagem da Tulipa --- */
 .tulip-photo {
     width: 220px; border-radius: 24px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     animation: float 6s ease-in-out infinite;
     image-rendering: pixelated;
     mix-blend-mode: screen; cursor: pointer;
+    transition: transform 0.2s;
 }
+.tulip-photo:active { transform: scale(0.95); }
+
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
+/* --- Textos --- */
 .info-track { text-align: center; }
-h1 { font-size: 1.4rem; margin: 0; font-weight: 600; }
+h1 { font-size: 1.4rem; margin: 0; font-weight: 600; letter-spacing: -0.5px; }
 p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; opacity: 0.8; }
 
-/* O Botão Player Customizado */
+/* --- O Botão Player (Corrigido) --- */
 .custom-player {
     position: relative; background: var(--glass);
-    padding: 18px 40px; border-radius: 50px;
+    padding: 18px 0; /* Padding lateral zerado, controlado pela largura */
+    width: 280px;    /* Largura fixa para centralizar perfeito */
+    border-radius: 50px;
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(10px); display: flex; align-items: center; gap: 15px;
+    backdrop-filter: blur(10px);
+    
+    /* Centralização Mágica */
+    display: flex; 
+    align-items: center; 
+    justify-content: center; /* Aqui está o segredo */
+    gap: 12px;
+    
     cursor: pointer; transition: 0.3s; overflow: hidden;
     user-select: none;
 }
-.custom-player:hover { background: rgba(255,255,255,0.2); transform: scale(1.02); }
-.custom-player:active { transform: scale(0.95); }
+.custom-player:hover { background: var(--glass-hover); transform: scale(1.02); border-color: rgba(255,255,255,0.4); }
+.custom-player:active { transform: scale(0.98); }
 
-.progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(255,255,255,0.1); }
-.progress-fill { height: 100%; width: 0%; background: var(--primary-pink); transition: width 0.1s linear; }
+.player-text { font-size: 0.85rem; letter-spacing: 1.5px; font-weight: 600; z-index: 2; }
+#play-icon { font-size: 1rem; z-index: 2; }
 
+/* Barra de Progresso */
+.progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.05); }
+.progress-fill { height: 100%; width: 0%; background: var(--primary-pink); transition: width 0.5s linear; box-shadow: 0 0 10px var(--primary-pink); }
+
+/* --- Extras --- */
 .runner-track { position: fixed; bottom: 0; width: 100%; height: 60px; pointer-events: none; z-index: 5; }
 .runner { font-size: 28px; position: absolute; bottom: 20px; animation: run 15s linear infinite; transform: scaleX(-1); }
 @keyframes run { from { left: -60px; } to { left: 110vw; } }
@@ -73,5 +96,4 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .heart { position: fixed; pointer-events: none; z-index: 100; animation: floatUp 2s ease-out forwards; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-/* Esconde o iframe do YouTube mas mantém carregado */
 #video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
