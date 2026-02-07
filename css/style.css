@@ -11,7 +11,7 @@ body, html {
     background: #111; color: white;
 }
 
-/* --- Fundo --- */
+/* --- Fundo Desfocado --- */
 .bg-image {
     position: fixed; inset: -5%; width: 110%; height: 110%;
     background: url('https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg') no-repeat center center/cover;
@@ -19,7 +19,7 @@ body, html {
     z-index: 0;
 }
 
-/* --- Tela de Intro --- */
+/* --- Tela de Introdução --- */
 #intro-screen {
     position: fixed; inset: 0; background: rgba(0,0,0,0.85);
     backdrop-filter: blur(15px);
@@ -42,7 +42,7 @@ body, html {
 }
 .main-content.active { opacity: 1; pointer-events: all; }
 
-/* --- Imagem da Tulipa --- */
+/* --- Tulipa Pixel Art --- */
 .tulip-photo {
     width: 220px; border-radius: 24px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
@@ -60,20 +60,21 @@ body, html {
 h1 { font-size: 1.4rem; margin: 0; font-weight: 600; letter-spacing: -0.5px; }
 p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; opacity: 0.8; }
 
-/* --- O Botão Player (Corrigido) --- */
+/* --- O Botão Player (Ajustado) --- */
 .custom-player {
     position: relative; background: var(--glass);
-    padding: 14px 0; /* Padding lateral zerado, controlado pela largura */
-    width: 280px;    /* Largura fixa para centralizar perfeito */
+    /* Mantém largura mínima para não "dançar" quando o texto muda */
+    min-width: 200px; 
+    padding: 18px 30px; 
     border-radius: 50px;
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     
-    /* Centralização Mágica */
+    /* Centralização Total */
     display: flex; 
     align-items: center; 
-    justify-content: center; /* Aqui está o segredo */
-    gap: 12px;
+    justify-content: center; /* Garante que fique no meio horizontalmente */
+    gap: 15px;
     
     cursor: pointer; transition: 0.3s; overflow: hidden;
     user-select: none;
@@ -81,14 +82,25 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .custom-player:hover { background: var(--glass-hover); transform: scale(1.02); border-color: rgba(255,255,255,0.4); }
 .custom-player:active { transform: scale(0.98); }
 
-.player-text { font-size: 0.85rem; letter-spacing: 1.5px; font-weight: 600; z-index: 2; }
-#play-icon { font-size: 1rem; z-index: 2; }
+/* Ajuste do Ícone (Empurrando para baixo) */
+#play-icon { 
+    font-size: 1.1rem; 
+    z-index: 2;
+    transform: translateY(2px); /* <--- AQUI ESTÁ O AJUSTE ÓTICO (Desce 2px) */
+}
+
+.player-text { 
+    font-size: 0.85rem; 
+    letter-spacing: 1.5px; 
+    font-weight: 600; 
+    z-index: 2; 
+}
 
 /* Barra de Progresso */
 .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.05); }
 .progress-fill { height: 100%; width: 0%; background: var(--primary-pink); transition: width 0.5s linear; box-shadow: 0 0 10px var(--primary-pink); }
 
-/* --- Extras --- */
+/* --- Decoração e Runner --- */
 .runner-track { position: fixed; bottom: 0; width: 100%; height: 60px; pointer-events: none; z-index: 5; }
 .runner { font-size: 28px; position: absolute; bottom: 20px; animation: run 15s linear infinite; transform: scaleX(-1); }
 @keyframes run { from { left: -60px; } to { left: 110vw; } }
@@ -96,5 +108,5 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .heart { position: fixed; pointer-events: none; z-index: 100; animation: floatUp 2s ease-out forwards; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
 
+/* Esconde o iframe do YouTube */
 #video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
-
