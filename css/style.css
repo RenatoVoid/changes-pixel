@@ -38,7 +38,6 @@ body, html {
 .main-content {
     position: relative; z-index: 10; height: 100dvh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    /* Reduzi de 30px para 20px para aproximar o botão do texto */
     gap: 20px; 
     opacity: 0; transition: 1s ease; pointer-events: none;
 }
@@ -62,21 +61,18 @@ body, html {
 h1 { font-size: 1.4rem; margin: 0; font-weight: 600; letter-spacing: -0.5px; }
 p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; opacity: 0.8; }
 
-/* --- O Botão Player (Corrigido Final) --- */
+/* --- O Botão Player (Ajuste Final de Alinhamento) --- */
 .custom-player {
     position: relative; background: var(--glass);
-    
-    /* Largura fixa garante a centralização perfeita */
     width: 260px; 
     
-    /* Ajuste fino de padding */
-    padding: 16px 0;
+    /* Padding igual em cima e embaixo */
+    padding: 18px 0;
     
     border-radius: 50px;
     border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
     
-    /* Centralização Flexbox */
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -89,23 +85,28 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .custom-player:hover { background: var(--glass-hover); transform: scale(1.02); border-color: rgba(255,255,255,0.4); }
 .custom-player:active { transform: scale(0.98); }
 
-/* Ícone */
+/* --- AQUI ESTÁ A CORREÇÃO --- */
+
+/* Ícone: Desce 1 pixel */
 #play-icon { 
     font-size: 1rem; 
     z-index: 2;
-    /* Empurra o ícone 1px para baixo para alinhar com o texto */
+    display: flex; /* Garante que o ícone se comporte bem */
     transform: translateY(1px); 
 }
 
-/* Texto do Botão */
+/* Texto: Sobe 3 pixels (Isso vai resolver o "caído") */
 .player-text { 
     font-size: 0.85rem; 
     letter-spacing: 1.5px; 
     font-weight: 600; 
     z-index: 2; 
-    /* Remove margens extras que possam estar empurrando */
     margin: 0;
-    line-height: 1;
+    line-height: 1; /* Remove espaço extra da fonte */
+    
+    /* PULO DO GATO: Puxa o texto para cima */
+    position: relative;
+    top: -3px; 
 }
 
 /* Barra de Progresso */
