@@ -1,0 +1,77 @@
+:root {
+    --primary-pink: #ffc4d0;
+    --glass: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+body, html {
+    margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    background: #111; color: white;
+}
+
+.bg-image {
+    position: fixed; inset: -5%; width: 110%; height: 110%;
+    background: url('https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg') no-repeat center center/cover;
+    filter: blur(40px) brightness(0.3);
+    z-index: 0;
+}
+
+#intro-screen {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(15px);
+    z-index: 9999; display: flex; justify-content: center; align-items: center;
+    transition: opacity 0.6s ease;
+}
+
+.btn-start {
+    padding: 16px 42px; font-size: 1rem; color: #fff; background: transparent;
+    border: 1px solid var(--glass-border); border-radius: 50px; cursor: pointer;
+    letter-spacing: 3px; font-weight: 600; transition: 0.3s;
+}
+.btn-start:hover { background: white; color: black; transform: scale(1.05); }
+
+.main-content {
+    position: relative; z-index: 10; height: 100dvh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 30px; opacity: 0; transition: 1s ease; pointer-events: none;
+}
+.main-content.active { opacity: 1; pointer-events: all; }
+
+.tulip-photo {
+    width: 220px; border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: float 6s ease-in-out infinite;
+    image-rendering: pixelated;
+    mix-blend-mode: screen; cursor: pointer;
+}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+.info-track { text-align: center; }
+h1 { font-size: 1.4rem; margin: 0; font-weight: 600; }
+p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; opacity: 0.8; }
+
+/* O Botão Player Customizado */
+.custom-player {
+    position: relative; background: var(--glass);
+    padding: 18px 40px; border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px); display: flex; align-items: center; gap: 15px;
+    cursor: pointer; transition: 0.3s; overflow: hidden;
+    user-select: none;
+}
+.custom-player:hover { background: rgba(255,255,255,0.2); transform: scale(1.02); }
+.custom-player:active { transform: scale(0.95); }
+
+.progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(255,255,255,0.1); }
+.progress-fill { height: 100%; width: 0%; background: var(--primary-pink); transition: width 0.1s linear; }
+
+.runner-track { position: fixed; bottom: 0; width: 100%; height: 60px; pointer-events: none; z-index: 5; }
+.runner { font-size: 28px; position: absolute; bottom: 20px; animation: run 15s linear infinite; transform: scaleX(-1); }
+@keyframes run { from { left: -60px; } to { left: 110vw; } }
+
+.heart { position: fixed; pointer-events: none; z-index: 100; animation: floatUp 2s ease-out forwards; }
+@keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
+
+/* Esconde o iframe do YouTube mas mantém carregado */
+#video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
