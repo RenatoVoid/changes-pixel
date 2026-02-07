@@ -63,7 +63,7 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 /* --- O Botão Player (Corrigido) --- */
 .custom-player {
     position: relative; background: var(--glass);
-    padding: 18px 0; /* Padding lateral zerado, controlado pela largura */
+    padding: 14px 0; /* Padding lateral zerado, controlado pela largura */
     width: 280px;    /* Largura fixa para centralizar perfeito */
     border-radius: 50px;
     border: 1px solid var(--glass-border);
@@ -97,3 +97,4 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
 
 #video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
+
