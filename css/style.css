@@ -3,6 +3,7 @@
     --glass: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-hover: rgba(255, 255, 255, 0.25);
+    --overlay-bg: rgba(15, 15, 15, 0.95);
 }
 
 body, html {
@@ -11,7 +12,6 @@ body, html {
     background: #111; color: white;
 }
 
-/* --- Fundo --- */
 .bg-image {
     position: fixed; inset: -5%; width: 110%; height: 110%;
     background: url('https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg') no-repeat center center/cover;
@@ -19,7 +19,6 @@ body, html {
     z-index: 0;
 }
 
-/* --- Tela de Intro --- */
 #intro-screen {
     position: fixed; inset: 0; background: rgba(0,0,0,0.85);
     backdrop-filter: blur(15px);
@@ -34,16 +33,15 @@ body, html {
 }
 .btn-start:hover { background: white; color: black; transform: scale(1.05); }
 
-/* --- Conteúdo Principal --- */
 .main-content {
     position: relative; z-index: 10; height: 100dvh;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     gap: 20px; 
     opacity: 0; transition: 1s ease; pointer-events: none;
+    transition: filter 0.5s ease;
 }
 .main-content.active { opacity: 1; pointer-events: all; }
 
-/* --- Imagem da Tulipa --- */
 .tulip-photo {
     width: 220px; border-radius: 24px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
@@ -56,62 +54,72 @@ body, html {
 
 @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-/* --- Textos --- */
 .info-track { text-align: center; }
 h1 { font-size: 1.4rem; margin: 0; font-weight: 600; letter-spacing: -0.5px; }
 p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 8px; opacity: 0.8; }
 
-/* --- O Botão Player (CORRIGIDO) --- */
 .custom-player {
     position: relative; background: var(--glass);
-    
-    width: 260px; 
-    height: 56px; /* Altura fixa para garantir centro vertical */
-    padding: 0;   /* Padding zerado em favor de Flexbox centralizado */
-    
-    border-radius: 50px;
-    border: 1px solid var(--glass-border);
+    width: 260px; height: 56px; padding: 0;
+    border-radius: 50px; border: 1px solid var(--glass-border);
     backdrop-filter: blur(10px);
-    
-    /* Centralização Absoluta Flexbox */
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    gap: 12px;
-    
+    display: flex; align-items: center; justify-content: center; gap: 12px;
     cursor: pointer; transition: 0.3s; overflow: hidden;
     user-select: none;
 }
-
 .custom-player:hover { background: var(--glass-hover); transform: scale(1.02); border-color: rgba(255,255,255,0.4); }
 .custom-player:active { transform: scale(0.98); }
 
-/* Ícone */
-#play-icon { 
-    font-size: 1rem; 
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: none; /* Removemos o deslocamento que causava o erro */
-}
+#play-icon { font-size: 1rem; z-index: 2; display: flex; align-items: center; justify-content: center; }
+.player-text { font-size: 0.85rem; letter-spacing: 1.5px; font-weight: 600; z-index: 2; margin: 0; line-height: 1; padding-top: 2px; }
 
-/* Texto do Botão */
-.player-text { 
-    font-size: 0.85rem; 
-    letter-spacing: 1.5px; 
-    font-weight: 600; 
-    z-index: 2; 
-    margin: 0;
-    line-height: 1;
-    padding-top: 2px; /* Ajuste ótico fino para a fonte Inter */
-}
-
-/* Barra de Progresso */
 .progress-track { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(255,255,255,0.05); }
 .progress-fill { height: 100%; width: 0%; background: var(--primary-pink); transition: width 0.5s linear; box-shadow: 0 0 10px var(--primary-pink); }
 
-/* --- Extras --- */
+.btn-secondary {
+    margin-top: 10px;
+    background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6); padding: 12px 24px; border-radius: 30px;
+    font-size: 0.75rem; cursor: pointer; transition: 0.3s;
+    display: flex; align-items: center; gap: 8px; letter-spacing: 1px;
+    text-transform: uppercase;
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.15); color: white; transform: translateY(-2px); }
+
+#lyrics-overlay {
+    position: fixed; inset: 0; top: 15vh;
+    background: var(--overlay-bg);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 30px 30px 0 0;
+    backdrop-filter: blur(20px);
+    z-index: 2000;
+    transform: translateY(110%);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    display: flex; flex-direction: column;
+    box-shadow: 0 -20px 50px rgba(0,0,0,0.8);
+}
+#lyrics-overlay.active { transform: translateY(0); }
+
+.overlay-header {
+    padding: 25px 30px; display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.overlay-header h2 {
+    margin: 0; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;
+    background: linear-gradient(90deg, #fff, var(--primary-pink));
+    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+#btn-close-lyrics {
+    background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;
+    opacity: 0.6; transition: 0.3s; padding: 10px;
+}
+#btn-close-lyrics:hover { opacity: 1; transform: rotate(90deg); }
+
+.overlay-content { padding: 30px; overflow-y: auto; font-size: 1rem; line-height: 1.7; color: #ccc; }
+.overlay-content h3 { color: white; margin-top: 0; }
+.overlay-content hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0; }
+.lyrics-quote { font-family: 'Courier Prime', monospace; color: var(--primary-pink); font-size: 1.1rem; border-left: 2px solid var(--primary-pink); padding-left: 15px; }
+
 .runner-track { position: fixed; bottom: 0; width: 100%; height: 60px; pointer-events: none; z-index: 5; }
 .runner { font-size: 28px; position: absolute; bottom: 20px; animation: run 15s linear infinite; transform: scaleX(-1); }
 @keyframes run { from { left: -60px; } to { left: 110vw; } }
@@ -119,39 +127,21 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .heart { position: fixed; pointer-events: none; z-index: 100; animation: floatUp 2s ease-out forwards; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
 
-#video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
+@keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.05); filter: brightness(1.2); } 100% { transform: scale(1); } }
+.pulsing { animation: heartbeat 2s infinite ease-in-out !important; }
 
-
-/* Adicione no final do style.css */
-@keyframes heartbeat {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); filter: brightness(1.2); }
-    100% { transform: scale(1); }
-}
-
-.pulsing {
-    animation: heartbeat 2s infinite ease-in-out !important; /* Sobrescreve a animação float */
-}
-
-/* --- Vaga-lumes (Fireflies) --- */
 .firefly {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    width: 4px;
-    height: 4px;
-    background-color: #fff; /* Luz branca/amarela */
-    border-radius: 50%;
-    box-shadow: 0 0 10px #fff, 0 0 20px var(--primary-pink); /* Brilho rosa */
-    pointer-events: none;
-    z-index: 1; /* Atrás do player, na frente do fundo */
-    opacity: 0;
+    position: fixed; left: 50%; top: 50%; width: 4px; height: 4px;
+    background-color: #fff; border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--primary-pink);
+    pointer-events: none; z-index: 1; opacity: 0;
     animation: drift ease-in-out infinite;
 }
-
 @keyframes drift {
     0% { transform: translate(0, 0); opacity: 0; }
-    20% { opacity: 1; } /* Aparece */
+    20% { opacity: 1; }
     80% { opacity: 0.8; }
-    100% { transform: translate(var(--moveX), var(--moveY)); opacity: 0; } /* Some e move */
+    100% { transform: translate(var(--moveX), var(--moveY)); opacity: 0; }
 }
+
+#video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
