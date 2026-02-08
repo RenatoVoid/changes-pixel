@@ -4,6 +4,7 @@
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-hover: rgba(255, 255, 255, 0.25);
     --overlay-bg: rgba(15, 15, 15, 0.95);
+    --secret-bg: rgba(10, 28, 40, 0.96); /* Azul profundo noite/mar */
 }
 
 body, html {
@@ -86,6 +87,7 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 }
 .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); color: white; transform: translateY(-2px); }
 
+/* OVERLAY PADRÃO (MANIFESTO) */
 #lyrics-overlay {
     position: fixed; inset: 0; top: 15vh;
     background: var(--overlay-bg);
@@ -100,6 +102,21 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 }
 #lyrics-overlay.active { transform: translateY(0); }
 
+/* OVERLAY SECRETO (PRAIA) */
+#secret-overlay {
+    position: fixed; inset: 0; top: 15vh;
+    background: var(--secret-bg);
+    border-top: 1px solid rgba(144, 202, 249, 0.2);
+    border-radius: 30px 30px 0 0;
+    backdrop-filter: blur(25px);
+    z-index: 2005;
+    transform: translateY(110%);
+    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex; flex-direction: column;
+    box-shadow: 0 -20px 60px rgba(0,0,0,0.9);
+}
+#secret-overlay.active { transform: translateY(0); }
+
 .overlay-header {
     padding: 25px 30px; display: flex; justify-content: space-between; align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -107,18 +124,26 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .overlay-header h2 {
     margin: 0; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;
     background: linear-gradient(90deg, #fff, var(--primary-pink));
-    background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
-#btn-close-lyrics {
+#btn-close-lyrics, #btn-close-secret {
     background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;
     opacity: 0.6; transition: 0.3s; padding: 10px;
 }
-#btn-close-lyrics:hover { opacity: 1; transform: rotate(90deg); }
+#btn-close-lyrics:hover, #btn-close-secret:hover { opacity: 1; transform: rotate(90deg); }
 
 .overlay-content { padding: 30px; overflow-y: auto; font-size: 1rem; line-height: 1.7; color: #ccc; }
 .overlay-content h3 { color: white; margin-top: 0; }
 .overlay-content hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0; }
 .lyrics-quote { font-family: 'Courier Prime', monospace; color: var(--primary-pink); font-size: 1.1rem; border-left: 2px solid var(--primary-pink); padding-left: 15px; }
+
+/* Estilo do Texto Secreto */
+.secret-text {
+    font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.15rem;
+    color: #e3f2fd; line-height: 1.6;
+    border-left: 3px solid #90caf9; padding-left: 20px;
+}
 
 .runner-track { position: fixed; bottom: 0; width: 100%; height: 60px; pointer-events: none; z-index: 5; }
 .runner { font-size: 28px; position: absolute; bottom: 20px; animation: run 15s linear infinite; transform: scaleX(-1); }

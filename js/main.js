@@ -37,10 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const tulip = document.getElementById('tulip-trigger');
     const progressFill = document.getElementById('progress-fill');
     
-    // Elementos do Overlay
+    // Elementos do Manifesto
     const btnOpenLyrics = document.getElementById('btn-open-lyrics');
     const btnCloseLyrics = document.getElementById('btn-close-lyrics');
     const lyricsOverlay = document.getElementById('lyrics-overlay');
+
+    // Elementos do Segredo (Praia)
+    const secretOverlay = document.getElementById('secret-overlay');
+    const btnCloseSecret = document.getElementById('btn-close-secret');
 
     const vibrate = () => { if (navigator.vibrate) navigator.vibrate(40); };
 
@@ -72,25 +76,32 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    tulip.addEventListener('click', (e) => {
-        vibrate();
-        createHeartExplosion(e.clientX, e.clientY);
-    });
-
     // Lógica do Overlay (Manifesto)
-    const toggleOverlay = (open) => {
+    const toggleOverlay = (overlay, open) => {
         vibrate();
         if (open) {
-            lyricsOverlay.classList.add('active');
+            overlay.classList.add('active');
             main.style.filter = "blur(5px) brightness(0.7)";
         } else {
-            lyricsOverlay.classList.remove('active');
+            overlay.classList.remove('active');
             main.style.filter = "none";
         }
     };
 
-    if(btnOpenLyrics) btnOpenLyrics.addEventListener('click', () => toggleOverlay(true));
-    if(btnCloseLyrics) btnCloseLyrics.addEventListener('click', () => toggleOverlay(false));
+    if(btnOpenLyrics) btnOpenLyrics.addEventListener('click', () => toggleOverlay(lyricsOverlay, true));
+    if(btnCloseLyrics) btnCloseLyrics.addEventListener('click', () => toggleOverlay(lyricsOverlay, false));
+    if(btnCloseSecret) btnCloseSecret.addEventListener('click', () => toggleOverlay(secretOverlay, false));
+
+    // O GATILHO DA TULIPA (SEGREDO)
+    tulip.addEventListener('click', (e) => {
+        vibrate();
+        createHeartExplosion(e.clientX, e.clientY);
+        
+        // Abre o segredo após 600ms
+        setTimeout(() => {
+            toggleOverlay(secretOverlay, true);
+        }, 600);
+    });
 
     setInterval(() => {
         if (player && player.getCurrentTime) {
