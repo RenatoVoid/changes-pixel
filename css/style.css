@@ -120,3 +120,15 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 @keyframes floatUp { 0% { transform: translateY(0); opacity: 0; } 100% { transform: translateY(-100px); opacity: 0; } }
 
 #video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
+
+
+/* Adicione no final do style.css */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); filter: brightness(1.2); }
+    100% { transform: scale(1); }
+}
+
+.pulsing {
+    animation: heartbeat 2s infinite ease-in-out !important; /* Sobrescreve a animação float */
+}

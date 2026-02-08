@@ -8,15 +8,15 @@ function onYouTubeIframeAPIReady() {
         height: '0',
         width: '0',
         videoId: 'm4GRthy8F_M',
-        playerVars: { 
-            'autoplay': 0, 
+        playerVars: {
+            'autoplay': 0,
             'controls': 0,
+            'playsinline': 1,
             'origin': window.location.origin,
-            'playsinline': 1
+            'rel': 0
         },
         events: {
-            'onStateChange': onPlayerStateChange,
-            'onReady': () => console.log("Player pronto")
+            'onStateChange': onPlayerStateChange
         }
     });
 }
@@ -24,10 +24,18 @@ function onYouTubeIframeAPIReady() {
 function onPlayerStateChange(event) {
     const icon = document.getElementById('play-icon');
     const label = document.querySelector('.player-text');
+    const tulip = document.querySelector('.tulip-photo');
     const isPlaying = event.data === YT.PlayerState.PLAYING;
 
-    icon.innerHTML = isPlaying ? "⏸" : "▶";
-    label.innerText = isPlaying ? "PAUSAR MÚSICA" : "OUVIR MÚSICA";
+    if (isPlaying) {
+        if(icon) icon.innerHTML = "⏸";
+        if(label) label.innerText = "PAUSAR MÚSICA";
+        if(tulip) tulip.classList.add('pulsing');
+    } else {
+        if(icon) icon.innerHTML = "▶";
+        if(label) label.innerText = "OUVIR MÚSICA";
+        if(tulip) tulip.classList.remove('pulsing');
+    }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -38,11 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const tulip = document.getElementById('tulip-trigger');
     const progressFill = document.getElementById('progress-fill');
 
+    const vibrate = () => {
+        if (navigator.vibrate) navigator.vibrate(40);
+    };
+
     btnStart.addEventListener('click', () => {
+        vibrate();
         intro.style.opacity = '0';
         intro.style.pointerEvents = 'none';
-        
-        if (player?.playVideo) {
+
+        if (player && typeof player.playVideo === "function") {
             player.playVideo();
             setTimeout(() => player.pauseVideo(), 150);
         }
@@ -54,17 +67,31 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     playTrigger.addEventListener('click', (e) => {
-        if (!player?.getPlayerState) return;
-        
+        vibrate();
+        if (!player) return;
+
         const state = player.getPlayerState();
-        state === 1 ? player.pauseVideo() : (player.playVideo(), createHeartExplosion(e.clientX, e.clientY));
+        if (state === 1) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+            createHeartExplosion(e.clientX, e.clientY);
+        }
+    });
+
+    tulip.addEventListener('click', (e) => {
+        vibrate();
+        createHeartExplosion(e.clientX, e.clientY);
     });
 
     setInterval(() => {
-        if (player?.getCurrentTime) {
-            const dur = player.getDuration();
-            const cur = player.getCurrentTime();
-            if (dur > 0) progressFill.style.width = `${(cur / dur) * 100}%`;
+        if (player && player.getCurrentTime) {
+            const duration = player.getDuration();
+            const current = player.getCurrentTime();
+            if (duration > 0) {
+                const percent = (current / duration) * 100;
+                progressFill.style.width = percent + '%';
+            }
         }
     }, 500);
 
@@ -72,9 +99,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.innerHTML = Math.random() > 0.5 ? '💖' : '✨';
-        heart.style.left = `${x + (Math.random() - 0.5) * 50}px`;
-        heart.style.top = `${y}px`;
-        heart.style.fontSize = `${Math.random() * 10 + 15}px`;
+        const offsetX = (Math.random() - 0.5) * 50;
+        
+        heart.style.left = (x + offsetX) + 'px';
+        heart.style.top = y + 'px';
+        heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+        
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 2000);
     };
@@ -84,6 +114,4 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => createHeart(x, y), i * 100);
         }
     };
-
-    tulip.addEventListener('click', (e) => createHeartExplosion(e.clientX, e.clientY));
 });
