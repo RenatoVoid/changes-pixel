@@ -132,3 +132,26 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .pulsing {
     animation: heartbeat 2s infinite ease-in-out !important; /* Sobrescreve a animação float */
 }
+
+/* --- Vaga-lumes (Fireflies) --- */
+.firefly {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 4px;
+    height: 4px;
+    background-color: #fff; /* Luz branca/amarela */
+    border-radius: 50%;
+    box-shadow: 0 0 10px #fff, 0 0 20px var(--primary-pink); /* Brilho rosa */
+    pointer-events: none;
+    z-index: 1; /* Atrás do player, na frente do fundo */
+    opacity: 0;
+    animation: drift ease-in-out infinite;
+}
+
+@keyframes drift {
+    0% { transform: translate(0, 0); opacity: 0; }
+    20% { opacity: 1; } /* Aparece */
+    80% { opacity: 0.8; }
+    100% { transform: translate(var(--moveX), var(--moveY)); opacity: 0; } /* Some e move */
+}
