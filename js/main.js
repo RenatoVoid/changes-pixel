@@ -1,44 +1,36 @@
 var player;
-
-// 1. Carrega a API do YouTube
-var tag = document.createElement('script');
+const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+document.head.appendChild(tag);
 
-// 2. Configuração do Player (Essa função o YouTube chama sozinha)
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('video-placeholder', {
-        height: '200',
-        width: '200',
-        videoId: 'm4GRthy8F_M', // TROQUEI AQUI: ID novo (Lyric Video) que costuma liberar o embed
+        height: '0',
+        width: '0',
+        videoId: 'm4GRthy8F_M',
         playerVars: { 
             'autoplay': 0, 
             'controls': 0,
-            'origin': window.location.origin // Ajuda a identificar o site
+            'origin': window.location.origin,
+            'playsinline': 1
         },
         events: {
-            'onStateChange': onPlayerStateChange
+            'onStateChange': onPlayerStateChange,
+            'onReady': () => console.log("Player pronto")
         }
     });
 }
 
-// 3. Controla a UI (Texto e Ícone)
 function onPlayerStateChange(event) {
     const icon = document.getElementById('play-icon');
     const label = document.querySelector('.player-text');
-    
-    if (event.data == YT.PlayerState.PLAYING) {
-        if(icon) icon.innerHTML = "⏸";
-        if(label) label.innerText = "PAUSAR MÚSICA";
-    } else {
-        if(icon) icon.innerHTML = "▶";
-        if(label) label.innerText = "OUVIR MÚSICA";
-    }
+    const isPlaying = event.data === YT.PlayerState.PLAYING;
+
+    icon.innerHTML = isPlaying ? "⏸" : "▶";
+    label.innerText = isPlaying ? "PAUSAR MÚSICA" : "OUVIR MÚSICA";
 }
 
-// 4. Interatividade do Site
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", () => {
     const btnStart = document.getElementById('botaozao');
     const intro = document.getElementById('intro-screen');
     const main = document.getElementById('main');
@@ -46,15 +38,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const tulip = document.getElementById('tulip-trigger');
     const progressFill = document.getElementById('progress-fill');
 
-    // Botão Inicial
     btnStart.addEventListener('click', () => {
         intro.style.opacity = '0';
         intro.style.pointerEvents = 'none';
         
-        // Tenta acordar o player
-        if (player && typeof player.playVideo === "function") {
+        if (player?.playVideo) {
             player.playVideo();
-            setTimeout(() => player.pauseVideo(), 500); // Toca um pouquinho e pausa pra carregar
+            setTimeout(() => player.pauseVideo(), 150);
         }
 
         setTimeout(() => {
@@ -63,51 +53,37 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 600);
     });
 
-    // Botão Customizado (Play/Pause)
     playTrigger.addEventListener('click', (e) => {
-        if (!player) return;
+        if (!player?.getPlayerState) return;
         
         const state = player.getPlayerState();
-        if (state == 1) { // 1 = Tocando
-            player.pauseVideo();
-        } else {
-            player.playVideo();
-            createHeartExplosion(e.clientX, e.clientY);
-        }
+        state === 1 ? player.pauseVideo() : (player.playVideo(), createHeartExplosion(e.clientX, e.clientY));
     });
 
-    // Barra de Progresso
     setInterval(() => {
-        if (player && player.getCurrentTime) {
-            const duration = player.getDuration();
-            const current = player.getCurrentTime();
-            if (duration > 0) {
-                const percent = (current / duration) * 100;
-                progressFill.style.width = percent + '%';
-            }
+        if (player?.getCurrentTime) {
+            const dur = player.getDuration();
+            const cur = player.getCurrentTime();
+            if (dur > 0) progressFill.style.width = `${(cur / dur) * 100}%`;
         }
     }, 500);
 
-    // Efeitos Visuais (Tulipa e Corações)
-    tulip.addEventListener('click', (e) => {
-        createHeartExplosion(e.clientX, e.clientY);
-    });
-
-    function createHeart(x, y) {
+    const createHeart = (x, y) => {
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.innerHTML = Math.random() > 0.5 ? '💖' : '✨';
-        const offsetX = (Math.random() - 0.5) * 50;
-        heart.style.left = (x + offsetX) + 'px';
-        heart.style.top = y + 'px';
-        heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+        heart.style.left = `${x + (Math.random() - 0.5) * 50}px`;
+        heart.style.top = `${y}px`;
+        heart.style.fontSize = `${Math.random() * 10 + 15}px`;
         document.body.appendChild(heart);
         setTimeout(() => heart.remove(), 2000);
-    }
+    };
 
-    function createHeartExplosion(x, y) {
+    const createHeartExplosion = (x, y) => {
         for (let i = 0; i < 8; i++) {
             setTimeout(() => createHeart(x, y), i * 100);
         }
-    }
+    };
+
+    tulip.addEventListener('click', (e) => createHeartExplosion(e.clientX, e.clientY));
 });
