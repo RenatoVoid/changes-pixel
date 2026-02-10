@@ -3,32 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
     <title>Changes - Pixel Edition</title>
     
-    <link rel="icon" href="https://www.citypng.com/public/uploads/preview/surprised-funny-cat-face-meme-hd-transparent-background-735811696677059sxxk1i6ygf.png" type="image/jpeg">
-
+    <link rel="icon" href="https://www.citypng.com/public/uploads/preview/surprised-funny-cat-face-meme-hd-transparent-background-735811696677059sxxk1i6ygf.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Courier+Prime&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/style.css">
-
-    <meta name="theme-color" content="#111111">
-    <meta name="description" content="Uma frequência de rádio perdida, esperando sintonização.">
-
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Changes 📻">
-    <meta property="og:description" content="O correr que faz você brilhar.">
-    <meta property="og:image" content="https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg">
+    <link rel="stylesheet" href="css/mural.css"> <meta name="theme-color" content="#111111">
 </head>
 <body>
 
     <div class="bg-image"></div>
 
     <section id="intro-screen">
-        <button class="btn-start" id="botaozao">Se por algum motivo vc entrar aqui novamente, me de ideia de oq posso melhorar ou mudar ta bom</button>
+        <button class="btn-start" id="botaozao">ENTRAR NA FREQUÊNCIA</button>
     </section>
 
     <main class="main-content" id="main">
-        
         <figure class="album-cover">
             <img src="https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg" 
                  class="tulip-photo" id="tulip-trigger" alt="Tulipa Pixel">
@@ -47,13 +38,11 @@
             </div>
         </div>
 
-        <div class="controls-row" style="display: flex; gap: 10px; margin-top: 10px;">
-            <button class="btn-secondary" id="btn-open-lyrics">
-                <span>📜</span> Manifesto
-            </button>
-            
-            <button class="btn-secondary" id="btn-toggle-playlist">
-                <span>🎵</span> Playlist
+        <div class="controls-row" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; justify-content: center;">
+            <button class="btn-secondary" id="btn-open-lyrics"><span>📜</span> Manifesto</button>
+            <button class="btn-secondary" id="btn-toggle-playlist"><span>🎵</span> Playlist</button>
+            <button class="btn-secondary" id="btn-open-mural" style="border-color: var(--primary-pink); color: var(--primary-pink);">
+                <span>📖</span> Ver Mural
             </button>
         </div>
 
@@ -62,60 +51,40 @@
                 <h3>Setlist 🎹</h3>
                 <button id="btn-close-playlist">✕</button>
             </div>
-            <ul id="playlist-list">
-                </ul>
+            <ul id="playlist-list"></ul>
         </div>
-
     </main>
 
-    <div class="runner-track">
-        <div class="runner">🏃‍♀️💨</div>
-    </div>
+    <section id="mural-page" class="mural-page">
+        <div class="mural-header">
+            <button class="btn-secondary" id="btn-close-mural">⬅ Voltar ao Rádio</button>
+            <h2 class="pixel-title">Mural de Pixels</h2>
+        </div>
+        <div class="mural-grid" id="mural-grid">
+            </div>
+    </section>
 
     <section id="lyrics-overlay">
-        <div class="overlay-header">
-            <h2>Bastidores</h2>
-            <button id="btn-close-lyrics">✕</button>
-        </div>
-        
+        <div class="overlay-header"><h2>Bastidores</h2><button id="btn-close-lyrics">✕</button></div>
         <div class="overlay-content">
             <h3>Sobre a Mudança</h3>
             <p>A vida é feita de pixels. Alguns coloridos, outros apagados. "Changes" não é sobre mudar quem você é, mas sobre aceitar que a estática faz parte da transmissão.</p>
             <hr>
             <p class="lyrics-quote">"Turn and face the strange..."</p>
-            <p>Encare o estranho. Abrace o glitch.</p>
-            <br>
-            <p><em>— Edição Pixel, 2026.</em></p>
-            <br><br>
         </div>
     </section>
 
     <section id="secret-overlay">
-        <div class="overlay-header">
-            <h2>Memória Desbloqueada 🌊</h2>
-            <button id="btn-close-secret">✕</button>
-        </div>
-        
+        <div class="overlay-header"><h2>Memória Desbloqueada 🌊</h2><button id="btn-close-secret">✕</button></div>
         <div class="overlay-content">
             <h3 style="color: #90caf9;">Aquele dia...</h3>
-            
-            <hr style="border-color: rgba(144, 202, 249, 0.3);">
-            
-            <p class="secret-text">
-                "No meio de tudo, guardei esta imagem:<br><br>
-                Um boné branco.<br>
-                Um colar de concha.<br>
-               E aquele sorriso bobo incrivel."
-            </p>
-            
-            <br>
-            <p><em>— O melhor frame.</em></p>
+            <p class="secret-text">"Um boné branco. Um colar de concha. E aquele sorriso bobo incrível."</p>
         </div>
     </section>
 
     <div id="video-placeholder"></div>
+    <audio id="sfx-tear" src="https://www.soundjay.com/misc/sounds/paper-rip-1.mp3"></audio>
 
     <script src="js/main.js"></script>
 </body>
 </html>
-
