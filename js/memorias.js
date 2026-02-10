@@ -1,32 +1,30 @@
-// js/memorias.js
-
 const listaFotos = [
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.17.43.jpeg',
-        legenda: 'Legenda para a Foto 1'
+        legenda: '...'
     },
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.17.44 (1).jpeg',
-        legenda: 'Legenda para a Foto 2'
+        legenda: 'Um frame especial'
     },
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.17.44 (2).jpeg',
-        legenda: 'Legenda para a Foto 3'
+        legenda: 'hehehe'
     },
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.17.44.jpeg',
-        legenda: 'Legenda para a Foto 4'
+        legenda: 'Changes 🌊'
     },
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.17.48 (1).jpeg',
-        legenda: 'Legenda para a Foto 5'
+        legenda: 'Dia calmo'
     },
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.17.48.jpeg',
-        legenda: 'Legenda para a Foto 6'
+        legenda: 'Memória desbloqueada'
     },
     {
         url: 'img/WhatsApp Image 2026-02-10 at 17.18.01.jpeg',
-        legenda: 'Legenda para a Foto 7'
+        legenda: 'Para não esquecer'
     }
 ];
