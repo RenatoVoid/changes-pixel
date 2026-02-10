@@ -18,13 +18,6 @@
     <meta property="og:title" content="Changes 📻">
     <meta property="og:description" content="O correr que faz você brilhar.">
     <meta property="og:image" content="https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg">
-    <meta property="og:image:width" content="600">
-    <meta property="og:image:height" content="600">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Changes 📻">
-    <meta name="twitter:description" content="O correr que faz você brilhar.">
-    <meta name="twitter:image" content="https://static.vecteezy.com/ti/vetor-gratis/p2/39642877-tulipa-flor-com-espumante-8-mordeu-pixel-arte-estilo-vetor.jpg">
 </head>
 <body>
 
@@ -54,9 +47,24 @@
             </div>
         </div>
 
-        <button class="btn-secondary" id="btn-open-lyrics">
-            <span>📜</span> Manifesto
-        </button>
+        <div class="controls-row" style="display: flex; gap: 10px; margin-top: 10px;">
+            <button class="btn-secondary" id="btn-open-lyrics">
+                <span>📜</span> Manifesto
+            </button>
+            
+            <button class="btn-secondary" id="btn-toggle-playlist">
+                <span>🎵</span> Playlist
+            </button>
+        </div>
+
+        <div id="playlist-overlay" class="playlist-container">
+            <div class="playlist-header">
+                <h3>Setlist 🎹</h3>
+                <button id="btn-close-playlist">✕</button>
+            </div>
+            <ul id="playlist-list">
+                </ul>
+        </div>
 
     </main>
 
@@ -110,4 +118,3 @@
     <script src="js/main.js"></script>
 </body>
 </html>
-
