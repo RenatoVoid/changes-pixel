@@ -1,7 +1,7 @@
 const playlistData = [
     { 
         title: "Changes ", 
-        artist: "Just Bieber", 
+        artist: "Justin Bieber", 
         id: "IMSEvJf7DzA" 
     },
     { 
@@ -294,6 +294,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(createFirefly, 600);
 });
+
 
 
 
