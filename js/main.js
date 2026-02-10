@@ -1,7 +1,7 @@
 const playlistData = [
     { 
-        title: "Changes (XXXXTENTACION Cover)", 
-        artist: "Emily Branca", 
+        title: "Changes", 
+        artist: "Just Bieber", 
         id: "IMSEvJf7DzA" 
     },
     { 
@@ -294,4 +294,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(createFirefly, 600);
 });
+
 
