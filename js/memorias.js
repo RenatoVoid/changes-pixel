@@ -1,23 +1,32 @@
 // js/memorias.js
 
-// INSTRUÇÕES PARA ELA:
-// 1. Suba a foto no PostImages.
-// 2. Copie o "Link Direto" (que termina em .jpg ou .png).
-// 3. Cole entre as aspas em 'url'.
-// 4. Escreva a legenda em 'legenda'.
-
 const listaFotos = [
     {
-        url: '', // Exemplo que você mandou
-        legenda: ''
-    },
-    // --- PARA ADICIONAR MAIS, COPIE O MODELO ABAIXO E COLE ABAIXO DESTA LINHA ---
-    {
-        url: '', 
-        legenda: ''
+        url: 'img/WhatsApp Image 2026-02-10 at 17.17.43.jpeg',
+        legenda: 'Legenda para a Foto 1'
     },
     {
-        url: '', 
-        legenda: ''
+        url: 'img/WhatsApp Image 2026-02-10 at 17.17.44 (1).jpeg',
+        legenda: 'Legenda para a Foto 2'
+    },
+    {
+        url: 'img/WhatsApp Image 2026-02-10 at 17.17.44 (2).jpeg',
+        legenda: 'Legenda para a Foto 3'
+    },
+    {
+        url: 'img/WhatsApp Image 2026-02-10 at 17.17.44.jpeg',
+        legenda: 'Legenda para a Foto 4'
+    },
+    {
+        url: 'img/WhatsApp Image 2026-02-10 at 17.17.48 (1).jpeg',
+        legenda: 'Legenda para a Foto 5'
+    },
+    {
+        url: 'img/WhatsApp Image 2026-02-10 at 17.17.48.jpeg',
+        legenda: 'Legenda para a Foto 6'
+    },
+    {
+        url: 'img/WhatsApp Image 2026-02-10 at 17.18.01.jpeg',
+        legenda: 'Legenda para a Foto 7'
     }
 ];
