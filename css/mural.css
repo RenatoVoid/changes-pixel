@@ -1,0 +1,60 @@
+/* Estilo isolado para o Mural */
+.mural-page {
+    position: fixed;
+    inset: 0;
+    background: #1a1a1a;
+    z-index: 3000;
+    display: none; /* Escondido por padrão */
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding: 40px 20px;
+    /* Efeito de revelação tipo papel rasgando */
+    clip-path: inset(0 0 100% 0); 
+    transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mural-page.active {
+    display: flex;
+    clip-path: inset(0 0 0 0);
+}
+
+.mural-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 800px;
+    margin-top: 30px;
+}
+
+.memory-card {
+    background: #fff;
+    padding: 10px 10px 30px 10px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    transform: rotate(var(--rotation));
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.memory-card:hover {
+    transform: rotate(0deg) scale(1.1);
+    z-index: 10;
+}
+
+.memory-card img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    filter: sepia(0.3) contrast(1.1); /* Efeito vintage pixel */
+    image-rendering: pixelated;
+}
+
+.memory-card span {
+    color: #333;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+}
