@@ -1,4 +1,45 @@
-var player;
+// CONFIGURAÇÃO DA PLAYLIST
+// Todos os links fornecidos foram convertidos em IDs e Títulos
+const playlistData = [
+    { 
+        title: "Climax/Moonlight (Young Thug & XXXTentacion)", 
+        artist: "Emily Branca", 
+        id: "w16n9y3HvrI" 
+    },
+    { 
+        title: "Spite (Original Song)", 
+        artist: "Emily Branca", 
+        id: "SLgUHgDp4W4" 
+    },
+    { 
+        title: "It's You (Ali Gatie Cover)", 
+        artist: "Emily Branca", 
+        id: "AEqcL9gI4OU" 
+    },
+    { 
+        title: "7 Rings (Ariana Grande Cover)", 
+        artist: "Emily Branca", 
+        id: "JAMfIIJNUR0" 
+    },
+    { 
+        title: "8 (Billie Eilish Cover)", 
+        artist: "Emily Branca", 
+        id: "bLaOZ4Pcq1s" 
+    },
+    { 
+        title: "Falling (Trevor Daniel Remix)", 
+        artist: "Emily Branca", 
+        id: "c-cULMoytsA" 
+    },
+    { 
+        title: "Falling Down (Lil Peep & XXXTentacion)", 
+        artist: "Emily Branca", 
+        id: "KZExoZkRANM" 
+    }
+];
+
+let player;
+let currentTrackIndex = 0; 
 
 const tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
@@ -6,7 +47,8 @@ document.head.appendChild(tag);
 
 function onYouTubeIframeAPIReady() {
     player = new YT.Player('video-placeholder', {
-        height: '0', width: '0', videoId: 'm4GRthy8F_M',
+        height: '0', width: '0', 
+        videoId: playlistData[0].id,
         playerVars: { 'autoplay': 0, 'controls': 0, 'playsinline': 1, 'origin': window.location.origin, 'rel': 0 },
         events: { 'onStateChange': onPlayerStateChange }
     });
@@ -27,9 +69,71 @@ function onPlayerStateChange(event) {
         if(label) label.innerText = "OUVIR MÚSICA";
         if(tulip) tulip.classList.remove('pulsing');
     }
+    
+    // Auto-play para o próximo vídeo quando o atual terminar
+    if (event.data === YT.PlayerState.ENDED) {
+        playTrack((currentTrackIndex + 1) % playlistData.length);
+    }
+}
+
+function playTrack(index) {
+    if (index < 0 || index >= playlistData.length) return;
+    
+    currentTrackIndex = index;
+    const track = playlistData[index];
+
+    // Carrega e toca o vídeo
+    if(player && player.loadVideoById) {
+        player.loadVideoById(track.id);
+        player.playVideo();
+    }
+
+    // Atualiza Texto na Tela Principal
+    const titleEl = document.querySelector('.info-track h1');
+    const artistEl = document.querySelector('.info-track p');
+    
+    if(titleEl) {
+        titleEl.style.opacity = '0';
+        setTimeout(() => {
+            titleEl.innerText = track.title;
+            titleEl.style.opacity = '1';
+        }, 300);
+    }
+    
+    if(artistEl) {
+        artistEl.innerText = track.artist;
+    }
+
+    renderPlaylist(); 
+}
+
+function renderPlaylist() {
+    const listEl = document.getElementById('playlist-list');
+    if(!listEl) return;
+
+    listEl.innerHTML = ''; 
+
+    playlistData.forEach((track, index) => {
+        const li = document.createElement('li');
+        li.className = `track-item ${index === currentTrackIndex ? 'active-track' : ''}`;
+        
+        // Estrutura do item da lista
+        li.innerHTML = `
+            <span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 65%;">${track.title}</span>
+            <small style="opacity:0.6; white-space: nowrap;">${track.artist}</small>
+        `;
+        
+        li.addEventListener('click', () => {
+            playTrack(index);
+            if (navigator.vibrate) navigator.vibrate(20);
+        });
+
+        listEl.appendChild(li);
+    });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Referências
     const btnStart = document.getElementById('botaozao');
     const intro = document.getElementById('intro-screen');
     const main = document.getElementById('main');
@@ -37,25 +141,38 @@ document.addEventListener("DOMContentLoaded", () => {
     const tulip = document.getElementById('tulip-trigger');
     const progressFill = document.getElementById('progress-fill');
     
-    // Elementos do Manifesto
+    // Overlays Antigos
     const btnOpenLyrics = document.getElementById('btn-open-lyrics');
     const btnCloseLyrics = document.getElementById('btn-close-lyrics');
     const lyricsOverlay = document.getElementById('lyrics-overlay');
-
-    // Elementos do Segredo (Praia)
     const secretOverlay = document.getElementById('secret-overlay');
     const btnCloseSecret = document.getElementById('btn-close-secret');
 
+    // Playlist
+    const btnTogglePlaylist = document.getElementById('btn-toggle-playlist');
+    const playlistContainer = document.getElementById('playlist-overlay');
+    const btnClosePlaylist = document.getElementById('btn-close-playlist');
+
     const vibrate = () => { if (navigator.vibrate) navigator.vibrate(40); };
 
-    btnStart.addEventListener('click', () => {
+    // Inicialização
+    renderPlaylist();
+    
+    // Define título inicial
+    const initialTrack = playlistData[0];
+    const titleEl = document.querySelector('.info-track h1');
+    const artistEl = document.querySelector('.info-track p');
+    if(titleEl) titleEl.innerText = initialTrack.title;
+    if(artistEl) artistEl.innerText = initialTrack.artist;
+
+    // INICIAR SITE
+    if(btnStart) btnStart.addEventListener('click', () => {
         vibrate();
         intro.style.opacity = '0';
         intro.style.pointerEvents = 'none';
 
         if (player && typeof player.playVideo === "function") {
-            player.playVideo();
-            setTimeout(() => player.pauseVideo(), 150);
+            player.playVideo(); 
         }
 
         setTimeout(() => {
@@ -64,11 +181,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 600);
     });
 
-    playTrigger.addEventListener('click', (e) => {
+    // BOTÃO PLAYER CENTRAL
+    if(playTrigger) playTrigger.addEventListener('click', (e) => {
         vibrate();
         if (!player) return;
         const state = player.getPlayerState();
-        if (state === 1) {
+        if (state === 1) { 
             player.pauseVideo();
         } else {
             player.playVideo();
@@ -76,7 +194,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Lógica do Overlay (Manifesto)
+    // CONTROLE PLAYLIST
+    if(btnTogglePlaylist) {
+        btnTogglePlaylist.addEventListener('click', (e) => {
+            vibrate();
+            e.stopPropagation();
+            playlistContainer.classList.toggle('active');
+        });
+    }
+
+    if(btnClosePlaylist) {
+        btnClosePlaylist.addEventListener('click', () => {
+            playlistContainer.classList.remove('active');
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if(playlistContainer && 
+           playlistContainer.classList.contains('active') && 
+           !playlistContainer.contains(e.target) && 
+           e.target !== btnTogglePlaylist) {
+            playlistContainer.classList.remove('active');
+        }
+    });
+
+    // OVERLAYS GENÉRICOS
     const toggleOverlay = (overlay, open) => {
         vibrate();
         if (open) {
@@ -92,17 +234,14 @@ document.addEventListener("DOMContentLoaded", () => {
     if(btnCloseLyrics) btnCloseLyrics.addEventListener('click', () => toggleOverlay(lyricsOverlay, false));
     if(btnCloseSecret) btnCloseSecret.addEventListener('click', () => toggleOverlay(secretOverlay, false));
 
-    // O GATILHO DA TULIPA (SEGREDO)
-    tulip.addEventListener('click', (e) => {
+    // TULIPA
+    if(tulip) tulip.addEventListener('click', (e) => {
         vibrate();
         createHeartExplosion(e.clientX, e.clientY);
-        
-        // Abre o segredo após 600ms
-        setTimeout(() => {
-            toggleOverlay(secretOverlay, true);
-        }, 600);
+        setTimeout(() => { toggleOverlay(secretOverlay, true); }, 600);
     });
 
+    // BARRA DE PROGRESSO
     setInterval(() => {
         if (player && player.getCurrentTime) {
             const duration = player.getDuration();
@@ -114,6 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, 500);
 
+    // EFEITOS (Hearts & Fireflies)
     const createHeart = (x, y) => {
         const heart = document.createElement('div');
         heart.className = 'heart';
