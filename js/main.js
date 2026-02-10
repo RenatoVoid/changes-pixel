@@ -1,6 +1,9 @@
-// CONFIGURAÇÃO DA PLAYLIST
-// Todos os links fornecidos foram convertidos em IDs e Títulos
 const playlistData = [
+    { 
+        title: "Changes (XXXXTENTACION Cover)", 
+        artist: "Emily Branca", 
+        id: "IMSEvJf7DzA" 
+    },
     { 
         title: "Climax/Moonlight (Young Thug & XXXTentacion)", 
         artist: "Emily Branca", 
@@ -291,3 +294,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setInterval(createFirefly, 600);
 });
+
