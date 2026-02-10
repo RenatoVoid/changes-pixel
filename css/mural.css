@@ -1,60 +1,54 @@
-/* Estilo isolado para o Mural */
-.mural-page {
-    position: fixed;
-    inset: 0;
-    background: #1a1a1a;
-    z-index: 3000;
-    display: none; /* Escondido por padrão */
-    flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
-    padding: 40px 20px;
-    /* Efeito de revelação tipo papel rasgando */
-    clip-path: inset(0 0 100% 0); 
-    transition: clip-path 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+.mural-body {
+    overflow-y: auto; /* Permite scroll nesta página */
+    background: #0f0f0f;
 }
 
-.mural-page.active {
-    display: flex;
-    clip-path: inset(0 0 0 0);
+.mural-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
 }
 
-.mural-grid {
+.mural-header h1 {
+    font-family: 'Courier Prime', monospace;
+    color: var(--primary-pink);
+    margin-bottom: 5px;
+}
+
+.photo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-    width: 100%;
-    max-width: 800px;
-    margin-top: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
 }
 
-.memory-card {
-    background: #fff;
-    padding: 10px 10px 30px 10px;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
-    transform: rotate(var(--rotation));
-    transition: 0.3s;
-    cursor: pointer;
+.photo-card {
+    background: white;
+    padding: 10px 10px 25px 10px;
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+    transform: rotate(var(--rot));
+    transition: 0.3s ease;
 }
 
-.memory-card:hover {
-    transform: rotate(0deg) scale(1.1);
-    z-index: 10;
+.photo-card:hover {
+    transform: rotate(0deg) scale(1.05);
+    z-index: 5;
 }
 
-.memory-card img {
+.photo-card img {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-    filter: sepia(0.3) contrast(1.1); /* Efeito vintage pixel */
-    image-rendering: pixelated;
+    image-rendering: pixelated; /* Mantém o estilo 8-bit */
 }
 
-.memory-card span {
+.photo-card span {
     color: #333;
-    font-family: 'Courier Prime', monospace;
     font-size: 0.8rem;
+    font-family: 'Courier Prime', monospace;
     display: block;
     margin-top: 10px;
-    text-align: center;
 }
+
+.mural-nav { padding: 20px; }
