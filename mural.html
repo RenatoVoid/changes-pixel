@@ -3,53 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mural de Memórias</title>
+    <title>Mural de Memórias - Changes</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    
     <style>
-        body { overflow-y: auto !important; background: #111; padding: 60px 20px; }
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
-            gap: 30px; 
-            max-width: 1100px; 
-            margin: 0 auto; 
+        /* Estilos específicos para o Mural para garantir que não quebrem o rádio */
+        body {
+            overflow-y: auto !important; /* Permite scroll para ver as fotos */
+            background: #0a0a0a;
+            padding: 80px 20px 40px 20px;
         }
-        .polaroid { 
-            background: #fff; padding: 12px 12px 35px; 
-            box-shadow: 10px 10px 30px rgba(0,0,0,0.5); 
-            transform: rotate(var(--r)); transition: 0.3s;
+
+        .mural-header {
+            text-align: center;
+            margin-bottom: 50px;
         }
-        .polaroid:hover { transform: rotate(0deg) scale(1.1); z-index: 10; }
-        .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; filter: sepia(0.2); }
-        .polaroid p { 
-            color: #333; font-family: 'Courier Prime', monospace; 
-            font-size: 0.85rem; margin-top: 15px; text-align: center; 
+
+        .mural-header h1 {
+            font-family: 'Courier Prime', monospace;
+            color: var(--primary-pink);
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
         }
-        .btn-back { position: fixed; top: 20px; left: 20px; z-index: 100; text-decoration: none; }
+
+        .mural-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Estilo Polaroid */
+        .polaroid {
+            background: #fff;
+            padding: 15px 15px 40px 15px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+            transform: rotate(var(--r));
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+            z-index: 10;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .polaroid img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            filter: sepia(0.2) contrast(1.1);
+            image-rendering: pixelated; /* Mantém o estilo 8-bit */
+            border: 2px solid #eee;
+        }
+
+        .polaroid p {
+            color: #333;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Navegação de volta */
+        .nav-back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border: 2px solid var(--primary-pink);
+            color: white;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.8rem;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--primary-pink);
+            color: #000;
+        }
+
+        /* Responsividade para telas pequenas */
+        @media (max-width: 600px) {
+            .mural-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+            .polaroid {
+                padding: 10px 10px 25px 10px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="bg-image" style="filter: blur(50px) brightness(0.2);"></div>
 
-    <a href="index.html" class="btn-secondary btn-back">⬅ VOLTAR AO RÁDIO</a>
-    
-    <div class="grid" id="mural-grid"></div>
+    <div class="bg-image" style="filter: blur(60px) brightness(0.2);"></div>
+
+    <nav class="nav-back">
+        <a href="index.html" class="btn-back">⬅ VOLTAR AO RÁDIO</a>
+    </nav>
+
+    <header class="mural-header">
+        <h1>Mural de Memórias</h1>
+        <p style="color: white; opacity: 0.6; font-family: 'Courier Prime';">Os frames que a gente não esquece.</p>
+    </header>
+
+    <main class="mural-grid" id="mural-grid">
+        </main>
 
     <script src="js/memorias.js"></script>
     <script>
-        const grid = document.getElementById('mural-grid');
-        
-        // O filtro (filter) garante que só apareçam fotos que tenham URL preenchida
-        listaFotos.filter(f => f.url !== '').forEach(foto => {
-            const div = document.createElement('div');
-            div.className = 'polaroid';
-            div.style.setProperty('--r', (Math.random() * 8 - 4) + 'deg');
-            div.innerHTML = `
-                <img src="${foto.url}" onerror="this.parentElement.style.display='none'">
-                <p>${foto.legenda || 'Sem legenda'}</p>
-            `;
-            grid.appendChild(div);
+        document.addEventListener("DOMContentLoaded", () => {
+            const grid = document.getElementById('mural-grid');
+
+            // Verifica se a lista existe no arquivo js/memorias.js
+            if (typeof listaFotos !== 'undefined') {
+                listaFotos.forEach(foto => {
+                    const div = document.createElement('div');
+                    div.className = 'polaroid';
+                    
+                    // Inclinação aleatória para dar charme
+                    const rotation = (Math.random() * 8 - 4) + 'deg';
+                    div.style.setProperty('--r', rotation);
+                    
+                    div.innerHTML = `
+                        <img src="${foto.url}" alt="Memória" loading="lazy" onerror="this.parentElement.style.display='none'">
+                        <p>${foto.legenda || '...'}</p>
+                    `;
+                    
+                    grid.appendChild(div);
+                });
+            } else {
+                grid.innerHTML = "<p style='color:white;'>Erro ao carregar o arquivo de memórias.</p>";
+            }
         });
     </script>
 </body>
