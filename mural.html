@@ -4,80 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mural de Memórias</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400&family=Courier+Prime&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css"> <style>
-        body { overflow-y: auto !important; background: #111; }
-        .mural-wrapper { padding: 40px 20px; max-width: 1000px; margin: 0 auto; text-align: center; }
-        .mural-header h1 { font-family: 'Courier Prime', monospace; color: var(--primary-pink); font-size: 2rem; }
-        
-        .photo-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
-            gap: 30px; 
-            margin-top: 50px; 
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body { overflow-y: auto; background: #111; padding: 50px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .polaroid { 
+            background: white; padding: 10px 10px 30px; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5); 
+            transform: rotate(var(--r)); 
+            transition: 0.3s;
         }
-
-        .polaroid {
-            background: #fff;
-            padding: 15px 15px 40px 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transform: rotate(var(--r));
-            transition: 0.4s ease;
-            cursor: pointer;
-        }
-
-        .polaroid:hover { transform: rotate(0deg) scale(1.05); z-index: 10; }
-
-        .polaroid img {
-            width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            image-rendering: pixelated; /* Mantém o estilo 8-bit do projeto */
-            filter: grayscale(0.3);
-        }
-
-        .polaroid span {
-            display: block;
-            margin-top: 15px;
-            color: #333;
-            font-family: 'Courier Prime', monospace;
-            font-size: 0.9rem;
-        }
-
-        .back-nav { position: fixed; top: 20px; left: 20px; z-index: 100; }
+        .polaroid:hover { transform: rotate(0deg) scale(1.1); z-index: 10; }
+        .polaroid img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
+        .polaroid p { color: #333; font-family: 'Courier Prime', sans-serif; font-size: 0.8rem; margin-top: 10px; text-align: center; }
+        .btn-back { position: fixed; top: 10px; left: 10px; z-index: 100; text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="bg-image" style="filter: blur(60px) brightness(0.2);"></div>
+    <a href="index.html" class="btn-secondary btn-back">⬅ VOLTAR</a>
+    
+    <div class="grid" id="mural-grid"></div>
 
-    <nav class="back-nav">
-        <a href="index.html" class="btn-secondary" style="text-decoration: none;">⬅ VOLTAR AO RÁDIO</a>
-    </nav>
-
-    <div class="mural-wrapper">
-        <header class="mural-header">
-            <h1>Mural de Memórias</h1>
-            <p style="opacity: 0.6; letter-spacing: 2px;">OS FRAMES QUE A GENTE NÃO ESQUECE.</p>
-        </header>
-
-        <div class="photo-grid" id="photo-grid">
-            </div>
-    </div>
-
+    <script src="js/memorias.js"></script>
     <script>
-        const memorias = [
-            { img: 'https://via.placeholder.com/400', txt: 'O início de tudo.' },
-            { img: 'https://via.placeholder.com/400', txt: 'Aquele sorriso.' },
-            { img: 'https://via.placeholder.com/400', txt: 'Changes.' }
-        ];
-
-        const grid = document.getElementById('photo-grid');
-        memorias.forEach(m => {
+        const grid = document.getElementById('mural-grid');
+        listaFotos.forEach(foto => {
             const div = document.createElement('div');
             div.className = 'polaroid';
-            // Rotação aleatória para parecer colado à mão
-            div.style.setProperty('--r', (Math.random() * 10 - 5) + 'deg');
-            div.innerHTML = `<img src="${m.img}"><span>${m.txt}</span>`;
+            div.style.setProperty('--r', (Math.random() * 6 - 3) + 'deg');
+            div.innerHTML = `<img src="${foto.url}"><p>${foto.legenda}</p>`;
             grid.appendChild(div);
         });
     </script>
