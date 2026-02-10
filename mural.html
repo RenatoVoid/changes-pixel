@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mural de Pixels - Memories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css"> <link rel="stylesheet" href="css/mural.css">
+</head>
+<body class="mural-body">
+    <div class="bg-image"></div> <nav class="mural-nav">
+        <a href="index.html" class="btn-secondary">⬅ Voltar ao Rádio</a>
+    </nav>
+
+    <main class="mural-container">
+        <header class="mural-header">
+            <h1>Mural de Memórias</h1>
+            <p>Os frames que a gente não esquece.</p>
+        </header>
+
+        <div class="photo-grid" id="photo-grid">
+            </div>
+    </main>
+
+    <script>
+        // Lógica simples para carregar as fotos
+        const fotos = [
+            { url: 'sua-foto-1.jpg', legenda: 'Aquele dia...' },
+            { url: 'sua-foto-2.jpg', legenda: 'O sorriso...' }
+        ];
+
+        const grid = document.getElementById('photo-grid');
+        fotos.forEach(f => {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            card.style.setProperty('--rot', (Math.random() * 6 - 3) + 'deg');
+            card.innerHTML = `<img src="${f.url}"><span>${f.legenda}</span>`;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
