@@ -4,7 +4,7 @@
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-hover: rgba(255, 255, 255, 0.25);
     --overlay-bg: rgba(15, 15, 15, 0.95);
-    --secret-bg: rgba(10, 28, 40, 0.96); /* Azul profundo noite/mar */
+    --secret-bg: rgba(10, 28, 40, 0.96);
 }
 
 body, html {
@@ -78,7 +78,6 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .progress-fill { height: 100%; width: 0%; background: var(--primary-pink); transition: width 0.5s linear; box-shadow: 0 0 10px var(--primary-pink); }
 
 .btn-secondary {
-    margin-top: 10px;
     background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.6); padding: 12px 24px; border-radius: 30px;
     font-size: 0.75rem; cursor: pointer; transition: 0.3s;
@@ -87,11 +86,9 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 }
 .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); color: white; transform: translateY(-2px); }
 
-/* OVERLAY PADRÃO (MANIFESTO) */
-#lyrics-overlay {
+/* OVERLAYS */
+#lyrics-overlay, #secret-overlay {
     position: fixed; inset: 0; top: 15vh;
-    background: var(--overlay-bg);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px 30px 0 0;
     backdrop-filter: blur(20px);
     z-index: 2000;
@@ -100,22 +97,10 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
     display: flex; flex-direction: column;
     box-shadow: 0 -20px 50px rgba(0,0,0,0.8);
 }
-#lyrics-overlay.active { transform: translateY(0); }
 
-/* OVERLAY SECRETO (PRAIA) */
-#secret-overlay {
-    position: fixed; inset: 0; top: 15vh;
-    background: var(--secret-bg);
-    border-top: 1px solid rgba(144, 202, 249, 0.2);
-    border-radius: 30px 30px 0 0;
-    backdrop-filter: blur(25px);
-    z-index: 2005;
-    transform: translateY(110%);
-    transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-    display: flex; flex-direction: column;
-    box-shadow: 0 -20px 60px rgba(0,0,0,0.9);
-}
-#secret-overlay.active { transform: translateY(0); }
+#lyrics-overlay { background: var(--overlay-bg); border-top: 1px solid rgba(255, 255, 255, 0.1); }
+#secret-overlay { background: var(--secret-bg); border-top: 1px solid rgba(144, 202, 249, 0.2); z-index: 2005; }
+#lyrics-overlay.active, #secret-overlay.active { transform: translateY(0); }
 
 .overlay-header {
     padding: 25px 30px; display: flex; justify-content: space-between; align-items: center;
@@ -124,7 +109,6 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .overlay-header h2 {
     margin: 0; font-size: 1.2rem; letter-spacing: 1px; text-transform: uppercase;
     background: linear-gradient(90deg, #fff, var(--primary-pink));
-    background-clip: text;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 #btn-close-lyrics, #btn-close-secret {
@@ -138,7 +122,6 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 .overlay-content hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 30px 0; }
 .lyrics-quote { font-family: 'Courier Prime', monospace; color: var(--primary-pink); font-size: 1.1rem; border-left: 2px solid var(--primary-pink); padding-left: 15px; }
 
-/* Estilo do Texto Secreto */
 .secret-text {
     font-family: 'Inter', sans-serif; font-weight: 300; font-size: 1.15rem;
     color: #e3f2fd; line-height: 1.6;
@@ -170,3 +153,78 @@ p { color: var(--primary-pink); font-size: 0.8rem; letter-spacing: 2px; text-tra
 }
 
 #video-placeholder { position: absolute; top: -9999px; left: -9999px; visibility: hidden; }
+
+/* --- NOVO CSS DA PLAYLIST --- */
+.playlist-container {
+    position: absolute;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    max-height: 0;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.playlist-container.active {
+    max-height: 400px;
+    opacity: 1;
+    pointer-events: all;
+    bottom: 110px;
+}
+
+.playlist-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.playlist-header h3 { 
+    margin: 0; font-size: 0.9rem; letter-spacing: 1px; 
+    text-transform: uppercase; color: var(--primary-pink); font-weight: 600;
+}
+
+#btn-close-playlist {
+    background: none; border: none; color: rgba(255,255,255,0.7);
+    cursor: pointer; font-size: 1.2rem; transition: 0.2s;
+}
+#btn-close-playlist:hover { color: white; transform: scale(1.1); }
+
+#playlist-list {
+    list-style: none; margin: 0; padding: 0;
+    max-height: 320px; overflow-y: auto;
+}
+
+#playlist-list::-webkit-scrollbar { width: 5px; }
+#playlist-list::-webkit-scrollbar-track { background: transparent; }
+#playlist-list::-webkit-scrollbar-thumb { 
+    background: rgba(255, 255, 255, 0.2); border-radius: 10px; 
+}
+#playlist-list::-webkit-scrollbar-thumb:hover { background: var(--primary-pink); }
+
+.track-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    cursor: pointer; transition: all 0.2s ease;
+    font-size: 0.85rem; display: flex; align-items: center; justify-content: space-between;
+    color: rgba(255,255,255,0.8);
+}
+.track-item:last-child { border-bottom: none; }
+.track-item:hover { background: rgba(255, 196, 208, 0.1); padding-left: 25px; color: white; }
+.track-item.active-track {
+    background: rgba(255, 196, 208, 0.15); color: var(--primary-pink);
+    border-left: 3px solid var(--primary-pink); font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .playlist-container { right: 5%; width: 90%; bottom: 90px; }
+}
