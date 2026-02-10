@@ -1,54 +1,81 @@
 .mural-body {
-    overflow-y: auto; /* Permite scroll nesta página */
-    background: #0f0f0f;
+    overflow-y: auto !important;
+    background: #0a0a0a;
+    margin: 0;
+    padding: 80px 20px 40px 20px;
 }
 
-.mural-container {
-    padding: 20px;
-    max-width: 900px;
-    margin: 0 auto;
+.mural-header {
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .mural-header h1 {
     font-family: 'Courier Prime', monospace;
     color: var(--primary-pink);
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: white;
+    opacity: 0.7;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.9rem;
     margin-bottom: 5px;
+}
+
+.convite {
+    color: var(--primary-pink);
+    opacity: 0.5;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.75rem;
+    font-style: italic;
 }
 
 .photo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 25px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .photo-card {
     background: white;
-    padding: 10px 10px 25px 10px;
-    box-shadow: 10px 10px 0px rgba(0,0,0,0.5);
+    padding: 12px 12px 35px 12px;
+    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
     transform: rotate(var(--rot));
-    transition: 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
 .photo-card:hover {
     transform: rotate(0deg) scale(1.05);
-    z-index: 5;
+    z-index: 10;
 }
 
 .photo-card img {
     width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
-    image-rendering: pixelated; /* Mantém o estilo 8-bit */
+    border: 1px solid #eee;
 }
 
 .photo-card span {
     color: #333;
-    font-size: 0.8rem;
     font-family: 'Courier Prime', monospace;
+    font-size: 0.85rem;
     display: block;
-    margin-top: 10px;
+    margin-top: 15px;
+    text-align: center;
 }
 
-.mural-nav { padding: 20px; }
+.nav-back { position: fixed; top: 20px; left: 20px; z-index: 1000; }
+.btn-back {
+    text-decoration: none;
+    border: 2px solid var(--primary-pink);
+    color: white;
+    padding: 8px 15px;
+    font-family: 'Courier Prime', monospace;
+    font-size: 0.8rem;
+}
