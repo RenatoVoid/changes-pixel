@@ -1,11 +1,23 @@
 // js/memorias.js
+
+// INSTRUÇÕES PARA ELA:
+// 1. Suba a foto no PostImages.
+// 2. Copie o "Link Direto" (que termina em .jpg ou .png).
+// 3. Cole entre as aspas em 'url'.
+// 4. Escreva a legenda em 'legenda'.
+
 const listaFotos = [
     {
-        url: 'https://i.postimg.cc/FzwjL2LV/pulseira.jpg',
-        legenda: 'A pulseira que combinamos ✨'
+        url: '', // Exemplo que você mandou
+        legenda: ''
+    },
+    // --- PARA ADICIONAR MAIS, COPIE O MODELO ABAIXO E COLE ABAIXO DESTA LINHA ---
+    {
+        url: '', 
+        legenda: ''
     },
     {
-        url: 'https://link-da-proxima-foto.jpg',
-        legenda: 'Outro momento especial'
+        url: '', 
+        legenda: ''
     }
 ];
